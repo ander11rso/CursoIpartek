@@ -107,7 +107,7 @@ public class Libro {
 		this.edicion = edicion;
 	}
 
-	public boolean isIsborrado() {
+	public boolean getIsborrado() {
 		return isborrado;
 	}
 

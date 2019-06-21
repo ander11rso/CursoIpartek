@@ -44,7 +44,7 @@ public class LibrosDAOColeccion implements Crudable<Libro> {
 
 	@Override
 	public void insertar(Libro libro) {
-		libro.setId(libros.size());
+		libro.setId(libros.size()+1);
 		libros.add(libro);
 	}
 
