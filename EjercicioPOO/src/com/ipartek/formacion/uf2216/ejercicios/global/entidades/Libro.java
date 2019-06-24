@@ -42,6 +42,14 @@ public class Libro {
 	public String toString() {
 		return "Libro [id=" + id + ", titulo=" + titulo + "]";
 	}
+	
+	
+	public String getLibro() {
+		return "Libro [id=" + id + ", titulo=" + titulo + ", isbn=" + isbn + ", editorial=" + editorial + ", autor="
+				+ autor + ", descripcion=" + descripcion + ", genero=" + genero + ", edicion=" + edicion
+				+ ", fechaImpresion=" + fechaImpresion + "]";
+	}
+	
 
 	public long getId() {
 		return id;
@@ -122,4 +130,5 @@ public class Libro {
 	public void setFechaImpresion(String fechaImpresion) {
 		this.fechaImpresion = fechaImpresion;
 	}
+
 }

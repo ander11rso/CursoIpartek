@@ -1,5 +1,7 @@
 package com.ipartek.formacion.uf2216.ejercicios.global.presentacionconsola;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import com.ipartek.formacion.uf2216.ejercicios.global.accesodatos.Crudable;
@@ -21,6 +23,8 @@ public class MantenimientoLibros {
 		//TODO Menú con insertar, modificar, borrar, listar, buscar por id
 		//TODO Buscar por titulo
 		
+		
+		
 		try(Scanner s = new Scanner(System.in)) {
 			
 			int opc=0;
@@ -31,51 +35,184 @@ public class MantenimientoLibros {
 				System.out.println("3. Borrar");
 				System.out.println("4. Listado");
 				System.out.println("5. Buscar por Id");
+				System.out.println("6. Guardar");
+				System.out.println("7. Cargar");
+				System.out.println("8. Importar (CSV)");
+				System.out.println("9. Exportar (CSV)");
 				System.out.println("0. Salir");
-				opc = s.nextInt();
+				String o=s.nextLine();
+				if(!o.equals("")) {
+					opc = comprNum(o);
+				}
+				else {
+					o=s.nextLine();	
+					opc = comprNum(o);
+					}
+				String res="";
 				
 				switch(opc) {
 					case 1:
 						Libro l1 = new Libro();
 						System.out.println("Introduce el titulo: ");
-						l1.setTitulo(s.next());
+						l1.setTitulo(s.nextLine());
 						System.out.println("Introduce el ISBN: ");
-						l1.setIsbn(s.next());
+						l1.setIsbn(s.nextLine());
 						System.out.println("Introduce la editorial: ");
-						l1.setEditorial(s.next());
+						l1.setEditorial(s.nextLine());
 						System.out.println("Introduce el autor: ");
-						l1.setAutor(s.next());
+						l1.setAutor(s.nextLine());
 						System.out.println("Introduce la descripcion");
-						l1.setDescripcion(s.next());
+						l1.setDescripcion(s.nextLine());
 						System.out.println("Introduce el genero");
-						l1.setGenero(s.next());
+						l1.setGenero(s.nextLine());
 						System.out.println("Introduce el numero de edicion");
-						l1.setEdicion(s.next());
+						l1.setEdicion(s.nextLine());
 						System.out.println("Introduce la fecha de impresion (DD/MM/AAAA)");
-						l1.setFechaImpresion(s.next());
+						l1.setFechaImpresion(s.nextLine());
 						dao.insertar(l1);
 						break;
+					case 2:
+						System.out.println("Introduce el ID del libro que quieras modificar: ");
+						
+						long id=s.nextLong();
+							l1=dao.obtenerPorId(id);
+							Libro mod=new Libro();
+							System.out.println(l1.getLibro());
+							System.out.println("Estas seguro que quieres modificar este libro?(S/N):");
+							System.out.println("(Si presionais enter no se modificara ese dato)");
+							res=s.next();
+							if(res.equals("S") || res.equals("s")) {
+								System.out.println("Titulo: "+l1.getTitulo());
+								BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+								int x=br.read();
+								char c=(char)x;
+								if(x!=13) 
+									{
+										mod.setTitulo(c+br.readLine());
+									}
+								else {
+									mod.setTitulo(l1.getTitulo());
+								}
+								System.out.println("ISBN: "+l1.getIsbn());
+								br = new BufferedReader(new InputStreamReader(System.in));
+								x=br.read();
+								c=(char)x;
+								if(x!=13) {
+									mod.setIsbn(c+br.readLine());
+								}
+								else {
+									mod.setIsbn(l1.getIsbn());
+								}
+								System.out.println("Editorial: "+l1.getEditorial());
+								br = new BufferedReader(new InputStreamReader(System.in));
+								x=br.read();
+								c=(char)x;
+								if(x!=13)
+									{
+										mod.setEditorial(c+br.readLine());
+									}
+								else {
+									mod.setEditorial(l1.getEditorial());
+								}
+								System.out.println("Autor: "+l1.getAutor());
+								br = new BufferedReader(new InputStreamReader(System.in));
+								x=br.read();
+								c=(char)x;
+								if(x!=13) {
+									mod.setAutor(c+br.readLine());
+								}
+								else {
+									mod.setAutor(l1.getAutor());
+								}
+								System.out.println("Descripcion: "+l1.getDescripcion());
+								br = new BufferedReader(new InputStreamReader(System.in));
+								x=br.read();
+								c=(char)x;
+								if(x!=13) {
+									mod.setDescripcion(c+br.readLine());
+								}
+								else {
+									mod.setDescripcion(l1.getDescripcion());
+								}
+								System.out.println("Genero: "+l1.getGenero());
+								br = new BufferedReader(new InputStreamReader(System.in));
+								x=br.read();
+								c=(char)x;
+								if(x!=13) {
+									mod.setGenero(c+br.readLine());
+								}
+								else {
+									mod.setGenero(l1.getGenero());
+								}
+								System.out.println("Edicion: "+l1.getEdicion());
+								br = new BufferedReader(new InputStreamReader(System.in));
+								x=br.read();
+								c=(char)x;
+								if(x!=32) {
+									mod.setEdicion(c+br.readLine());
+								}
+								else {
+									mod.setEdicion(l1.getEdicion());
+								}
+								System.out.println("Introduce la fecha de imrpesion:"+l1.getFechaImpresion());
+								br = new BufferedReader(new InputStreamReader(System.in));
+								x=br.read();
+								c=(char)x;
+								if(x!=13) {
+									mod.setFechaImpresion(c+br.readLine());
+								}
+								else {
+									mod.setFechaImpresion(l1.getFechaImpresion());
+								}
+								dao.modificar(mod);
+								break;
+							}
+							break;
+						
+						
 					case 3:
 						System.out.println("Introduce el ID: ");
-						long id=s.nextLong();
-						System.out.println(dao.obtenerPorId(id));
-						System.out.println("Estas seguro que quieres borrar este libro?(S/N):");
-						if(s.next().equals("S") || s.next().equals("s")) {
-							dao.borrar(id);
-							break;
+						String id4=s.nextLine();
+						if(comprNum(id4)!= -1) {
+							Libro l2=dao.obtenerPorId(Long.parseLong(id4));
+							if(l2==null) {
+								System.out.println("No existe un libro con esa ID");
+							}
+							else {
+								
+								System.out.println(l2.getLibro());
+								System.out.println("Estas seguro que quieres borrar este libro?(S/N):");
+								res=s.nextLine();
+								if(res.equals("S") || res.equals("s")) {
+									dao.borrar(l2.getId());
+									break;
+								}
+								else {
+									break;
+								}
+							}
 						}
-						else {
-							break;
-						}
-					case 5:
-						System.out.println("Introduce el ID: ");					
-						System.out.println(dao.obtenerPorId(s.nextLong()));
 						break;
 					case 4: 
 						for(Libro libro: dao.obtenerTodos()) {
 							if(!libro.getIsborrado()) System.out.println(libro);
 						}
-						break;	
+						break;
+					case 5:
+						System.out.println("Introduce el ID: ");
+						String id5=s.nextLine();
+						if(comprNum(id5)!= -1) {
+							Libro l2=dao.obtenerPorId(Long.parseLong(id5));
+							if(l2==null) {
+								System.out.println("No existe un libro con esa ID");
+							}
+							else {
+								
+								System.out.println(l2.getLibro());
+							}
+						}
+						break;
+						
 				}
 				
 			} while(opc!=0);
@@ -86,6 +223,16 @@ public class MantenimientoLibros {
 				}
 		
 		
+	}//cierra el main
+	private static int comprNum(String s) {
+		int num=0;
+		try {
+			num=Integer.parseInt(s);
+		}
+		catch(Exception e) {
+			System.out.println("Mete un numero cazurro");
+			num=-1;
+		}
+		return num;
 	}
-
-}
+}//cierra la clase

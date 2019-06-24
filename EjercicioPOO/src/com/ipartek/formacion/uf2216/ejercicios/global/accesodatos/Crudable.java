@@ -10,7 +10,7 @@ public interface Crudable<T> {
 	public T obtenerPorId(long id);
 	
 	public void insertar(T objeto);
-	public void modificar(T objeto);
+	public void modificar(T objeto) throws Exception;
 	public void borrar(T objeto);
 	public void borrar(long id);
 }

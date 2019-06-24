@@ -50,19 +50,13 @@ public class LibrosDAOColeccion implements Crudable<Libro> {
 
 	@Override
 	public void modificar(Libro libro) {
-		for(int i=0; i<=libros.size()-1; i++) {
-			if(libro.getId()==libros.get(i).getId())
-				{
-					libros.get(i).setAutor(libro.getAutor());
-					libros.get(i).setDescripcion(libro.getDescripcion());
-					libros.get(i).setEdicion(libro.getEdicion());
-					libros.get(i).setEditorial(libro.getEditorial());
-					libros.get(i).setGenero(libro.getGenero());
-					libros.get(i).setIsbn(libro.getIsbn());
-					libros.get(i).setTitulo(libro.getTitulo());
-					libros.get(i).setFechaImpresion(libro.getFechaImpresion());
-				}
-		}
+
+			for(int i=0; i<=libros.size()-1; i++) {
+				if(libro.getId()==libros.get(i).getId())
+					{
+					libros.set(i,libro);
+					}
+			}		
 		
 	}
 
@@ -84,6 +78,7 @@ public class LibrosDAOColeccion implements Crudable<Libro> {
 		}
 		
 	}
+	
 	
 	public int tamaño() {
 		return libros.size();
