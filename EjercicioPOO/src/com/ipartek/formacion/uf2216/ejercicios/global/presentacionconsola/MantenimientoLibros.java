@@ -235,13 +235,39 @@ public class MantenimientoLibros {
 							ois.close();
 							fit.close();
 							System.out.println("done!");
-						} catch (FileNotFoundException e) {
+							} catch (FileNotFoundException e) {
 						      System.out.println(e.getMessage());
 						    }
 						break;
 					case 9:
+						try{
+							Scanner scanner = new Scanner(new File(RUTA_CSV));
+							scanner.nextLine();	
+							scanner.nextLine();	
+					        scanner.useDelimiter(",");
+					        while(scanner.hasNextLine()){
+					        	id=Long.parseLong(scanner.next());
+					        	Libro l2=dao.obtenerPorId(id);
+								if(l2==null) {
+									//Id,Titulo,ISBN,Editorial,Autor,Descripcion,Genero,Edicion,IsBorrado,FechaImpresion
+									Libro l3= new Libro(id,scanner.next(),scanner.next(),scanner.next(),scanner.next(),scanner.next(),scanner.next(),scanner.next(),Boolean.parseBoolean(scanner.next()),scanner.next());
+									dao.insertar(l3);
+								}
+								else {
+									Libro l3= new Libro(id,scanner.next(),scanner.next(),scanner.next(),scanner.next(),scanner.next(),scanner.next(),scanner.next(),Boolean.parseBoolean(scanner.next()),scanner.next());
+									dao.modificar(l3);
+								}
+								scanner.nextLine();
+					        }
+					        scanner.close();
+					        System.out.println("done!");
+							} catch (Exception e) {
+						      System.out.println(e.getMessage());
+						      e.printStackTrace();
+						    }
+						break;
+					case 8:
 						 try (PrintWriter writer = new PrintWriter(new File(RUTA_CSV))) {
-
 						      StringBuilder sb = new StringBuilder();
 						      sb.append("sep=,\n");
 						      sb.append("id,titulo,isbn,editorial,autor,descripcion,genero,edicion,isBorrado,fechaImpresion\n");
@@ -253,7 +279,6 @@ public class MantenimientoLibros {
 								}
 
 						      writer.write(sb.toString());
-
 						      System.out.println("done!");
 
 						    } catch (FileNotFoundException e) {
