@@ -1,8 +1,7 @@
 package com.ipartek.formacion.uf2216.ejercicios.global.presentacionconsola;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.io.*;
 
 import com.ipartek.formacion.uf2216.ejercicios.global.accesodatos.Crudable;
 import com.ipartek.formacion.uf2216.ejercicios.global.accesodatos.LibrosDAOColeccion;
@@ -10,6 +9,8 @@ import com.ipartek.formacion.uf2216.ejercicios.global.entidades.Libro;
 
 public class MantenimientoLibros {
 
+	private static final String RUTA_CSV = "C:\\Users\\curso\\Desktop\\test.csv";
+	private static final String RUTA_DAT = "C:\\Users\\curso\\Desktop\\test.dat";
 	public static void main(String[] args) {
 		Crudable<Libro> dao = LibrosDAOColeccion.getInstance();
 		
@@ -37,8 +38,8 @@ public class MantenimientoLibros {
 				System.out.println("5. Buscar por Id");
 				System.out.println("6. Guardar");
 				System.out.println("7. Cargar");
-				System.out.println("8. Importar (CSV)");
-				System.out.println("9. Exportar (CSV)");
+				System.out.println("8. Exportar (CSV)");
+				System.out.println("9. Importar (CSV)");
 				System.out.println("0. Salir");
 				String o=s.nextLine();
 				if(!o.equals("")) {
@@ -195,7 +196,9 @@ public class MantenimientoLibros {
 						break;
 					case 4: 
 						for(Libro libro: dao.obtenerTodos()) {
-							if(!libro.getIsborrado()) System.out.println(libro);
+							if(!libro.getIsborrado()){
+									System.out.println(libro);
+								}
 						}
 						break;
 					case 5:
@@ -212,6 +215,51 @@ public class MantenimientoLibros {
 							}
 						}
 						break;
+					case 6:
+						try{
+							FileOutputStream fout = new FileOutputStream(RUTA_DAT);
+							ObjectOutputStream oos = new ObjectOutputStream(fout);
+							oos.writeObject(dao);
+							oos.close();
+							fout.close();
+							System.out.println("done!");
+						} catch (FileNotFoundException e) {
+						      System.out.println(e.getMessage());
+						    }
+						break;
+					case 7:
+						try{
+							FileInputStream fit = new FileInputStream(RUTA_DAT);
+							ObjectInputStream ois = new ObjectInputStream(fit);
+							dao= (Crudable<Libro>) ois.readObject();
+							ois.close();
+							fit.close();
+							System.out.println("done!");
+						} catch (FileNotFoundException e) {
+						      System.out.println(e.getMessage());
+						    }
+						break;
+					case 9:
+						 try (PrintWriter writer = new PrintWriter(new File(RUTA_CSV))) {
+
+						      StringBuilder sb = new StringBuilder();
+						      sb.append("sep=,\n");
+						      sb.append("id,titulo,isbn,editorial,autor,descripcion,genero,edicion,isBorrado,fechaImpresion\n");
+						      for(Libro libro: dao.obtenerTodos()) {
+						    	  sb.append(libro.getId() + "," + libro.getTitulo() + "," + libro.getIsbn() + "," + libro.getEditorial() + "," + libro.getAutor() + "," 
+						    			  	+ libro.getDescripcion() + "," + libro.getGenero() + "," + libro.getEdicion() + "," + libro.getIsborrado() + "," 
+						    			  	+ libro.getFechaImpresion() + "\n");
+										
+								}
+
+						      writer.write(sb.toString());
+
+						      System.out.println("done!");
+
+						    } catch (FileNotFoundException e) {
+						      System.out.println(e.getMessage());
+						    }
+						 break;
 						
 				}
 				

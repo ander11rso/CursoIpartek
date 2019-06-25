@@ -1,6 +1,12 @@
 package com.ipartek.formacion.uf2216.ejercicios.global.entidades;
 
-public class Libro {
+import java.io.Serializable;
+
+public class Libro implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4367834438393088358L;
 	//TODO: ISBN, Editorial, Autor, Descripción, Género, Edición, IsBorrado, Fecha de impresión
 	private long id;
 	private String titulo;
