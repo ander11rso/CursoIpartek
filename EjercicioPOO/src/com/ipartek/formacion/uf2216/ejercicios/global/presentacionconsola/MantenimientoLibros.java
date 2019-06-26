@@ -12,6 +12,7 @@ public class MantenimientoLibros {
 	private static final String RUTA_CSV = "C:\\Users\\curso\\Desktop\\test.csv";
 	private static final String RUTA_DAT = "C:\\Users\\curso\\Desktop\\test.dat";
 
+	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
 		Crudable<Libro> dao = LibrosDAOColeccion.getInstance();
 
@@ -40,6 +41,7 @@ public class MantenimientoLibros {
 				System.out.println("7. Cargar");
 				System.out.println("8. Exportar (CSV)");
 				System.out.println("9. Importar (CSV)");
+				System.out.println("10. Guardar txt");
 				System.out.println("0. Salir");
 				String o = s.nextLine();
 				if (!o.equals("")) {
@@ -51,7 +53,7 @@ public class MantenimientoLibros {
 				String res = "";
 
 				switch (opc) {
-				case 1:
+				case 1://Añadir
 					Libro l1 = new Libro();
 					System.out.println("Introduce el titulo: ");
 					l1.setTitulo(s.nextLine());
@@ -71,7 +73,7 @@ public class MantenimientoLibros {
 					l1.setFechaImpresion(s.nextLine());
 					dao.insertar(l1);
 					break;
-				case 2:
+				case 2://Modificar
 					System.out.println("Introduce el ID del libro que quieras modificar: ");
 					String id2 = s.nextLine();
 					if (comprNum(id2) != -1) {
@@ -94,7 +96,8 @@ public class MantenimientoLibros {
 									mod.setTitulo(c + br.readLine());
 								} else {
 									mod.setTitulo(l1.getTitulo());
-								}
+								}							
+//								mod.setTitulo(leerTexto("Titulo: ", l1.getTitulo()));
 								System.out.println("ISBN: " + l1.getIsbn());
 								br = new BufferedReader(new InputStreamReader(System.in));
 								x = br.read();
@@ -166,7 +169,7 @@ public class MantenimientoLibros {
 
 					break;
 
-				case 3:
+				case 3://Borrar
 					System.out.println("Introduce el ID: ");
 					String id4 = s.nextLine();
 					if (comprNum(id4) != -1) {
@@ -180,21 +183,19 @@ public class MantenimientoLibros {
 							res = s.nextLine();
 							if (res.equals("S") || res.equals("s")) {
 								dao.borrar(l2.getId());
-								break;
-							} else {
-								break;
 							}
+							break;
 						}
 					}
 					break;
-				case 4:
+				case 4://Listado
 					for (Libro libro : dao.obtenerTodos()) {
 						if (!libro.getIsborrado()) {
 							System.out.println(libro);
 						}
 					}
 					break;
-				case 5:
+				case 5://Buscar por ID
 					System.out.println("Introduce el ID: ");
 					String id5 = s.nextLine();
 					if (comprNum(id5) != -1) {
@@ -207,7 +208,7 @@ public class MantenimientoLibros {
 						}
 					}
 					break;
-				case 6:
+				case 6://Guardar
 					try {
 						FileOutputStream fout = new FileOutputStream(RUTA_DAT);
 						ObjectOutputStream oos = new ObjectOutputStream(fout);
@@ -219,7 +220,7 @@ public class MantenimientoLibros {
 						System.out.println(e.getMessage());
 					}
 					break;
-				case 7:
+				case 7://Cargar
 					try {
 						FileInputStream fit = new FileInputStream(RUTA_DAT);
 						ObjectInputStream ois = new ObjectInputStream(fit);
@@ -231,7 +232,7 @@ public class MantenimientoLibros {
 						System.out.println(e.getMessage());
 					}
 					break;
-				case 9:
+				case 9://Importar CSV
 					try {
 						Scanner scanner = new Scanner(new File(RUTA_CSV));
 						scanner.nextLine();
@@ -261,7 +262,7 @@ public class MantenimientoLibros {
 						e.printStackTrace();
 					}
 					break;
-				case 8:
+				case 8://Exportar CSV
 					try (PrintWriter writer = new PrintWriter(new File(RUTA_CSV))) {
 						StringBuilder sb = new StringBuilder();
 						sb.append("sep=,\n");
