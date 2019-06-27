@@ -81,86 +81,22 @@ public class MantenimientoLibros {
 						if (l1 == null) {
 							System.out.println("No existe un libro con esa ID");
 						} else {
-							Libro mod = new Libro();
 							System.out.println(l1.getLibro());
-							mod.setId(l1.getId());
 							System.out.println("Estas seguro que quieres modificar este libro?(S/N):");
 							System.out.println("(Si presionais enter no se modificara ese dato)");
 							res = s.next();
 							if (res.equals("S") || res.equals("s")) {
-								System.out.println("Titulo: " + l1.getTitulo());
+								Libro mod = new Libro();
+								mod.setId(l1.getId());
 								BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-								int x = br.read();
-								char c = (char) x;
-								if (x != 13) {
-									mod.setTitulo(c + br.readLine());
-								} else {
-									mod.setTitulo(l1.getTitulo());
-								}							
-//								mod.setTitulo(leerTexto("Titulo: ", l1.getTitulo()));
-								System.out.println("ISBN: " + l1.getIsbn());
-								br = new BufferedReader(new InputStreamReader(System.in));
-								x = br.read();
-								c = (char) x;
-								if (x != 13) {
-									mod.setIsbn(c + br.readLine());
-								} else {
-									mod.setIsbn(l1.getIsbn());
-								}
-								System.out.println("Editorial: " + l1.getEditorial());
-								br = new BufferedReader(new InputStreamReader(System.in));
-								x = br.read();
-								c = (char) x;
-								if (x != 13) {
-									mod.setEditorial(c + br.readLine());
-								} else {
-									mod.setEditorial(l1.getEditorial());
-								}
-								System.out.println("Autor: " + l1.getAutor());
-								br = new BufferedReader(new InputStreamReader(System.in));
-								x = br.read();
-								c = (char) x;
-								if (x != 13) {
-									mod.setAutor(c + br.readLine());
-								} else {
-									mod.setAutor(l1.getAutor());
-								}
-								System.out.println("Descripcion: " + l1.getDescripcion());
-								br = new BufferedReader(new InputStreamReader(System.in));
-								x = br.read();
-								c = (char) x;
-								if (x != 13) {
-									mod.setDescripcion(c + br.readLine());
-								} else {
-									mod.setDescripcion(l1.getDescripcion());
-								}
-								System.out.println("Genero: " + l1.getGenero());
-								br = new BufferedReader(new InputStreamReader(System.in));
-								x = br.read();
-								c = (char) x;
-								if (x != 13) {
-									mod.setGenero(c + br.readLine());
-								} else {
-									mod.setGenero(l1.getGenero());
-								}
-								System.out.println("Edicion: " + l1.getEdicion());
-								br = new BufferedReader(new InputStreamReader(System.in));
-								x = br.read();
-								c = (char) x;
-								if (x != 32) {
-									mod.setEdicion(c + br.readLine());
-								} else {
-									mod.setEdicion(l1.getEdicion());
-								}
-								System.out.println("Introduce la fecha de imrpesion:" + l1.getFechaImpresion());
-								br = new BufferedReader(new InputStreamReader(System.in));
-								x = br.read();
-								c = (char) x;
-								if (x != 13) {
-									mod.setFechaImpresion(c + br.readLine());
-								} else {
-									mod.setFechaImpresion(l1.getFechaImpresion());
-								}
+								mod.setTitulo(leerTexto("Titulo: ", l1.getTitulo(), br));
+								mod.setIsbn(leerTexto("ISBN: ", l1.getIsbn(), br));
+								mod.setEditorial(leerTexto("Editorial: ", l1.getEditorial(), br));
+								mod.setAutor(leerTexto("Autor: ", l1.getAutor(), br));
+								mod.setDescripcion(leerTexto("Descripcion: ", l1.getDescripcion(), br));
+								mod.setGenero(leerTexto("Genero: ", l1.getGenero(), br));
+								mod.setEdicion(leerTexto("Edicion: ", l1.getEdicion(), br));
+								mod.setFechaImpresion(leerTexto("Introduce la fecha de impresion: ", l1.getFechaImpresion(), br));
 								dao.modificar(mod);
 								break;
 							}
@@ -295,6 +231,16 @@ public class MantenimientoLibros {
 
 	}// cierra el main
 
+	private static String leerTexto(String s, String dato, BufferedReader br) throws IOException{
+		br = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println(s + dato);	
+		int x = br.read();
+		char c = (char) x;
+		if (x != 13) {
+			dato=c + br.readLine();
+		}	
+		return dato;
+	}
 	private static int comprNum(String s) {
 		int num = 0;
 		try {
