@@ -41,7 +41,6 @@ public class MantenimientoLibros {
 				System.out.println("7. Cargar");
 				System.out.println("8. Exportar (CSV)");
 				System.out.println("9. Importar (CSV)");
-				System.out.println("10. Guardar txt");
 				System.out.println("0. Salir");
 				String o = s.nextLine();
 				if (!o.equals("")) {
